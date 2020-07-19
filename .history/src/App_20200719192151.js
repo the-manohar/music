@@ -16,11 +16,12 @@ class App extends Component {
   }
 
   search() {
+    console.log(this.state);
     const BASE_URL = `https://api.spotify.com/v1/search?`;
     let FETCH_URL = `${BASE_URL}q=${this.state.query}&type=artist&limit=1`;
     const ALBUM_URL = `https://api.spotify.com/v1/artists/`;
-    // const token =
-    //   "BQAUInlC15Ij22-MmZC6uGbrwWKFCq2xfMnD6KWQbCAUwRnjwszOriQ6Uahl5S0k7IV6bVfp0YXicGwez0c";
+    const token =
+      "BQAUInlC15Ij22-MmZC6uGbrwWKFCq2xfMnD6KWQbCAUwRnjwszOriQ6Uahl5S0k7IV6bVfp0YXicGwez0c";
     const clientId = "5c909f4c3ff6406ba9ee3e544ef8da46";
     const clientSecret = "765a6ae9ba6b4edc993dbf1c96aea081";
     fetch("https://accounts.spotify.com/api/token", {
@@ -33,26 +34,29 @@ class App extends Component {
     })
       .then((res) => res.json())
       .then((json) => {
-        this.setState({ token: json.access_token });
+        return console.log(json.access_token);
+      });
+
+    fetch(FETCH_URL, {
+      method: "GET",
+      headers: { Authorization: "Bearer " + token },
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json);
+        const artist = json.artists.items[0];
+        this.setState({ artist });
+
+        FETCH_URL = `${ALBUM_URL}${artist.id}/top-tracks?country=US&`;
         fetch(FETCH_URL, {
           method: "GET",
-          headers: { Authorization: "Bearer " + this.state.token },
+          headers: { Authorization: "Bearer " + token },
         })
           .then((res) => res.json())
           .then((json) => {
-            const artist = json.artists.items[0];
-            this.setState({ artist });
-
-            FETCH_URL = `${ALBUM_URL}${artist.id}/top-tracks?country=US&`;
-            fetch(FETCH_URL, {
-              method: "GET",
-              headers: { Authorization: "Bearer " + this.state.token },
-            })
-              .then((res) => res.json())
-              .then((json) => {
-                const tracks = json.tracks;
-                this.setState({ tracks });
-              });
+            console.log(json);
+            const tracks = json.tracks;
+            this.setState({ tracks });
           });
       });
   }
