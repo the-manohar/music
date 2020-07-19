@@ -66,20 +66,15 @@ class App extends Component {
             <Button onClick={() => this.search()}>Search</Button>
           </InputGroup>
         </FormGroup>
-        {this.state.artist ? (
+        {this.state.artist ? {this.state.artist !== null ? (
           <div>
-            {this.state.artist !== null ? (
-              <div>
-                <Profile artist={this.state.artist} />
-                <Gallery tracks={this.state.tracks} />
-              </div>
-            ) : (
-              <div> </div>
-            )}
+            <Profile artist={this.state.artist} />
+            <Gallery tracks={this.state.tracks} />
           </div>
         ) : (
-          <div>Not Found</div>
-        )}
+          <div> </div>
+        )}: <div>Not Found</div> }
+        
       </div>
     );
   }
