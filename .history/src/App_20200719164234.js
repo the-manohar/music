@@ -49,9 +49,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-title">Music Master</div>
-        <div>
-          Created By <span style={{ color: "red" }}>Manohar Sirvi</span>
-        </div>
+        <div className="App-name">Created By Manohar Sirvi</div>
 
         <FormGroup>
           <InputGroup>
