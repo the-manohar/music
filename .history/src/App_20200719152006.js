@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./App.css";
 import { FormGroup, FormControl, InputGroup, Button } from "react-bootstrap";
 import Profile from "./Profile";
-import Gallery from "./Gallery";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -10,17 +9,15 @@ class App extends Component {
     this.state = {
       query: "",
       artist: null,
-      tracks: [],
     };
   }
 
   search() {
     console.log(this.state);
     const BASE_URL = `https://api.spotify.com/v1/search?`;
-    let FETCH_URL = `${BASE_URL}q=${this.state.query}&type=artist&limit=1`;
-    const ALBUM_URL = `https://api.spotify.com/v1/artists/`;
+    const FETCH_URL = `${BASE_URL}q=${this.state.query}&type=artist&limit=1`;
     const token =
-      "BQAiuR-T48RRj7W-JK09GAgxip7MHQVzHwhOhNUyXGGEXk8O4Apf0DH_OBsJeKyyEQk3q8MyOeX9HrsgtGU";
+      "BQB3k7ZkEP9hWNnSW4khb18DF4wbhcN2rU48Vi0FE6t5W1Q1UALGj1voB2bscGF5wINGAe2pp3v-MN5IULw";
     fetch(FETCH_URL, {
       method: "GET",
       headers: { Authorization: "Bearer " + token },
@@ -30,18 +27,6 @@ class App extends Component {
         console.log(json);
         const artist = json.artists.items[0];
         this.setState({ artist });
-
-        FETCH_URL = `${ALBUM_URL}${artist.id}/top-tracks?country=US&`;
-        fetch(FETCH_URL, {
-          method: "GET",
-          headers: { Authorization: "Bearer " + token },
-        })
-          .then((res) => res.json())
-          .then((json) => {
-            console.log(json);
-            const tracks = json.tracks;
-            this.setState({ tracks });
-          });
       });
   }
 
@@ -66,15 +51,14 @@ class App extends Component {
             <Button onClick={() => this.search()}>Search</Button>
           </InputGroup>
         </FormGroup>
-        {this.state.artist !== null ? (
-          <div>
-            <Profile artist={this.state.artist} />
-            <Gallery tracks={this.state.tracks} />
-          </div>
-        ) : (
-          <div> </div>
-        )}
-      </div>
+{
+  this.state.artist !== null ? <div>
+        <Profile artist={this.state.artist} />
+        <div className="Gallery">Gallery</div>
+      
+  </div>: <div></div>
+}
+        
     );
   }
 }

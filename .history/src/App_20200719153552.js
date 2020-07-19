@@ -20,7 +20,7 @@ class App extends Component {
     let FETCH_URL = `${BASE_URL}q=${this.state.query}&type=artist&limit=1`;
     const ALBUM_URL = `https://api.spotify.com/v1/artists/`;
     const token =
-      "BQAiuR-T48RRj7W-JK09GAgxip7MHQVzHwhOhNUyXGGEXk8O4Apf0DH_OBsJeKyyEQk3q8MyOeX9HrsgtGU";
+      "BQB3k7ZkEP9hWNnSW4khb18DF4wbhcN2rU48Vi0FE6t5W1Q1UALGj1voB2bscGF5wINGAe2pp3v-MN5IULw";
     fetch(FETCH_URL, {
       method: "GET",
       headers: { Authorization: "Bearer " + token },
@@ -38,7 +38,6 @@ class App extends Component {
         })
           .then((res) => res.json())
           .then((json) => {
-            console.log(json);
             const tracks = json.tracks;
             this.setState({ tracks });
           });
